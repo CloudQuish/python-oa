@@ -8,6 +8,32 @@
 4. **Test locally**: `pytest tests/`
 5. **Push to GitHub for automatic grading**
 
+## 🔧 Troubleshooting Installation
+
+### Python 3.13 Compatibility Issue
+If you get pandas/numpy installation errors with Python 3.13:
+
+**Solution 1: Use Core Requirements (Recommended)**
+```bash
+pip install -r requirements.txt
+```
+*Note: We've removed pandas/numpy from core requirements for Python 3.13 compatibility*
+
+**Solution 2: If Still Having Issues**
+```bash
+pip install -r requirements_python313.txt
+```
+
+**Solution 3: Use Python 3.11 or 3.12**
+```bash
+# Create new environment with compatible Python version
+conda create -n assessment python=3.11
+conda activate assessment
+pip install -r requirements.txt
+```
+
+The core assessment works perfectly without pandas - it's only needed for optional analytics!
+
 ---
 
 ## 📁 File Structure
@@ -21,6 +47,7 @@
 ├── tests/                       # Test files (DO NOT MODIFY)
 ├── time_tracker.py              # Optional time tracking tool
 ├── requirements.txt             # Dependencies
+├── requirements_python313.txt   # Python 3.13 compatible
 └── README.md                    # Overview
 ```
 
@@ -100,7 +127,7 @@ git push
 - **Q12**: Fibonacci generator (memory efficient)
 - **Q13**: File context manager with proper cleanup
 - **Q14**: Thread-safe counter class
-- **Q15**: Advanced data processing (filter, group, aggregate)
+- **Q15**: Advanced data processing (filter, group, aggregate) - **Pure Python**
 
 ### Backend Development (25 points)
 - **Q16**: Create REST API with Flask (CRUD operations)
@@ -282,6 +309,28 @@ def file_operation(filename, data):
 - [ ] Correct return type?
 - [ ] Edge cases handled?
 - [ ] No syntax errors?
+
+### Common Installation Issues
+
+#### "pandas installation failed"
+```bash
+# Use core requirements (pandas removed for compatibility)
+pip install -r requirements.txt
+```
+
+#### "bcrypt installation failed"
+```bash
+# Install build tools first
+pip install --upgrade pip setuptools wheel
+pip install -r requirements.txt
+```
+
+#### "pytest not found"
+```bash
+# Ensure you're in correct directory and virtual environment
+which python
+pip install pytest
+```
 
 ### Resources
 - Python documentation: https://docs.python.org/3/

@@ -160,5 +160,6 @@ def question_15_data_processor(data_list):
         >>> question_15_data_processor(data)
         {'LA': 30.0, 'NYC': 23.5}
     """
-    # TODO: Implement advanced data processing
+    # TODO: Implement advanced data processing using pure Python
+    # Note: Use built-in Python functions instead of pandas for compatibility
     pass 
