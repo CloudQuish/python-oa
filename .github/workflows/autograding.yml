@@ -1,0 +1,80 @@
+name: GitHub Classroom Workflow
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Basic Python Questions Tests (20 points)
+      id: basic-python
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Basic Python Questions (Q1-Q5)
+        setup-command: ''
+        command: python -m pytest tests/test_basic_python.py -v --tb=short
+        timeout: 10
+        max-score: 20
+        
+    - name: Intermediate Python Questions Tests (25 points)
+      id: intermediate-python
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Intermediate Python Questions (Q6-Q10)
+        setup-command: ''
+        command: python -m pytest tests/test_intermediate_python.py -v --tb=short
+        timeout: 15
+        max-score: 25
+        
+    - name: Advanced Python Questions Tests (30 points)
+      id: advanced-python
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Advanced Python Questions (Q11-Q15)
+        setup-command: ''
+        command: python -m pytest tests/test_advanced_python.py -v --tb=short
+        timeout: 20
+        max-score: 30
+        
+    - name: Backend Development Questions Tests (25 points)
+      id: backend-development
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Backend Development Questions (Q16-Q20)
+        setup-command: ''
+        command: python -m pytest tests/test_backend_development.py -v --tb=short
+        timeout: 25
+        max-score: 25
+        
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        BASIC-PYTHON_RESULTS: "${{steps.basic-python.outputs.result}}"
+        INTERMEDIATE-PYTHON_RESULTS: "${{steps.intermediate-python.outputs.result}}"
+        ADVANCED-PYTHON_RESULTS: "${{steps.advanced-python.outputs.result}}"
+        BACKEND-DEVELOPMENT_RESULTS: "${{steps.backend-development.outputs.result}}"
+      with:
+        runners: basic-python,intermediate-python,advanced-python,backend-development 
